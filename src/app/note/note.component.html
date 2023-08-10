@@ -1,0 +1,88 @@
+
+
+<div class="container">
+
+    <div class="btn-group mt-5 mb-3">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_notes_modal" >Create Note</button>
+    </div>
+
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 ">
+        <div class="col p-2" *ngFor="let note of notes">
+            <div class="card">
+                <div class="card-body">
+                    <h4>{{note.note_title}}</h4>
+                   <p>{{note.note_description}}</p>
+   
+                   <div class="d-grid gap-2 d-flex">
+                       <button class="btn btn-dark" type="button" data-bs-toggle="modal" data-bs-target="#edit_notes_modal" (click)="getNoteDetail(note)"><i class="bi bi-pencil-square"></i></button>
+                       <button class="btn btn-dark" type="button" (click)="deleteNote(note)"><i class="bi bi-trash-fill"></i></button>
+                   </div>
+               </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Add Notes Modal -->
+
+    <div class="modal fade" id="add_notes_modal" tabindex="-1" aria-labelledby="notes_modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="notes_modalLabel">Add Note</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="noteForm">
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">Note Title:</label>
+                  <input type="text" class="form-control" id="recipient-name" formControlName="title">
+                </div>
+                <div class="mb-3">
+                  <label for="message-text" class="col-form-label">Note Description:</label>
+                  <textarea class="form-control" id="message-text" formControlName="description"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" #ngmodalclose class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" (click)="addNote()" [disabled]="noteForm.invalid">Add Note</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <!-- Edit Notes Modal -->
+
+    <div class="modal fade" id="edit_notes_modal" tabindex="-1" aria-labelledby="notes_modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="notes_modalLabel">Edit Note</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="editForm">
+                <div class="mb-3">
+                  <label for="recipient-name" class="col-form-label">Note Title:</label>
+                  <input type="text" class="form-control" id="recipient-name" formControlName="edit_title" [value]="noteDetail?.note_title">
+                </div>
+                <div class="mb-3">
+                  <label for="message-text" class="col-form-label">Note Description:</label>
+                  <textarea class="form-control" id="message-text" formControlName="edit_description" [value]="noteDetail?.note_description"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" #ngmodalclose class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button"  class="btn btn-primary" (click)="updateNote(noteDetail)" [disabled]="editForm.invalid">Update Note</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
